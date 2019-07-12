@@ -11,7 +11,7 @@ base_url = f"https://api.telegram.org/bot{token}"
 
 naver_client_id = config('NAVER_Client_ID')
 naver_client_secret = config('NAVER_Client_Secret')
-naver_url = 'https://openapi.naver.com/v1/papago/n2mt'
+
 
 
 @app.route(f'/{token}', methods=['POST'])
@@ -59,6 +59,7 @@ def telegram():
 
         # if 인사말이 오면, 나만의 인사해주기
         if '/번역 ' == text[0:4]:
+            naver_url = 'https://openapi.naver.com/v1/papago/n2mt'
             headers = { 'X-Naver-Client-Id' : naver_client_id,
                     'X-Naver-Client-Secret' : naver_client_secret
             }
