@@ -14,7 +14,6 @@ naver_client_secret = config('NAVER_Client_Secret')
 naver_url = 'https://openapi.naver.com/v1/papago/n2mt'
 
 
-
 @app.route(f'/{token}', methods=['POST'])
 def telegram():
     response = request.get_json()
@@ -40,10 +39,11 @@ def telegram():
         naver_url = 'https://openapi.naver.com/v1/vision/celebrity'
         response = requests.post(naver_url, headers=headers, files={'image': image}).json()
 
-        best = response.get('faces')[0].get('celebrity')
+        if response.get('faces'):
+            best = response.get('faces')[0].get('celebrity')
 
-        if best.get('confidence') > 0.2:
-            text = f"{best.get('confidence')*100}%만큼 {best.get('value')}를 닮으셨네요~"
+            if best.get('confidence') > 0.2:
+                text = f"{best.get('confidence')*100}%만큼 {best.get('value')}를 닮으셨네요~"
         else:
             text = '사람 아닌듯;;'
         api_url = f'{base_url}/sendMessage?chat_id={chat_id}&text={text}'
